@@ -596,8 +596,9 @@ footer .bottom .divider {
     grid-column: auto;
   }
 
-  div .call-bott {
-    display: block;
+  .call-bott { 
+    display: grid;
+    place-items: center;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -606,8 +607,9 @@ footer .bottom .divider {
     z-index: 99999;
     background: linear-gradient(125deg,#ffa749,#ff8d16);
   }
-  .call-bott a{
+  .call-bott a span {
     color: #fff;
     padding: 25px;
+    text-align: center;
   }
 }
