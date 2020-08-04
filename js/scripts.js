@@ -1,21 +1,31 @@
 /* Scroll to top Arrow */
-$(window).scroll(function() {
-    var height = $(window).scrollTop();
-    if (height > 100) {
-        $('#top-butt').fadeIn()
-        .css({bottom:-1})
-        .animate({bottom:17}, 100,);
-    } else {
-        $('#top-butt')
-        .css({bottom:17})
-        .animate({bottom:-30}, "fast",);
-    }
-});
+  
 $(document).ready(function() {
-    $("#top-butt").click(function(event) {
-        event.preventDefault();
-        $("html, body").animate({ scrollTop: 0 }, "slow");
-        return false;
-    });
+
+  var scrollTimeout;
+    $(window).scroll((evt) => {
+      if (scrollTimeout){
+        // clear the timeout, if one is pending
+        clearTimeout(scrollTimeout);
+        scrollTimeout = null;
+        }
+        scrollTimeout = setTimeout(scrollHandler, 250);
+      });
+      scrollHandler = () => {
+        // Check your page position
+        if ($(this).scrollTop() > 200){
+            $('#top-butt')
+            .animate({bottom:17}, "fast",);
+        } else {
+            $('#top-butt')
+            .animate({bottom:-30}, "fast",);
+        }
+  };
+
+  $("#top-butt").click(function(event) {
+      event.preventDefault();
+      $("html, body").animate({ scrollTop: 0 }, "slow");
+      return false;
+  });
 
 });

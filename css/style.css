@@ -514,9 +514,9 @@ footer .bottom .divider {
 }
 
 #top-butt {
-  display: none;
+  display: block;
   cursor: pointer;
-  bottom: 17px;
+  bottom: -30px;
   right: 15px;
   z-index: 999;
   position: fixed;
