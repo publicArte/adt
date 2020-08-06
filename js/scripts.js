@@ -1,5 +1,6 @@
+/***********************/
 /* Scroll to top Arrow */
-  
+/***********************/
 $(document).ready(function() {
 
   var scrollTimeout;
@@ -29,6 +30,10 @@ $(document).ready(function() {
   });
 
 });
+
+/*****************/
+/* Animations    */
+/*****************/
 
 /* Scroll FadeIn */
   $(document).on("scroll", function() {
@@ -80,3 +85,29 @@ $(document).ready(function() {
       }
     }
   });
+
+/*******************/
+/* Form Validation */
+/*******************/
+
+/* Input validate */
+$('input').blur(function() {
+    if (!$(this).val()) {
+     //alert("This is a required field.");
+      $(this).addClass('invalid');
+      $(this).parent().addClass('invalid');
+    }
+});
+
+
+
+
+/* ZipCode count */
+document.getElementById('zipcode').addEventListener('keyup', () => {
+  var count = 0;
+  if ($(this).val().length > 0) {
+    count = $(this).val().length
+  } 
+
+  return count;
+});
