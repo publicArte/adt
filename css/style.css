@@ -245,8 +245,16 @@ form input.box.invalid{
   background-position: center right;
 }
 
+form[name='footer-form'] input.box.invalid{
+  background-size: 18%;
+}
+
 form div:nth-child(6) input.box.invalid {
   background-size: 12%;
+}
+
+form[name='footer-form'] div:nth-child(6) input.box.invalid {
+  background-size: 9%;
 }
 
 form div {

@@ -93,12 +93,17 @@ $(document).ready(function() {
 /* Input validate */
 $('input').blur(function() {
     if (!$(this).val()) {
-     //alert("This is a required field.");
       $(this).addClass('invalid');
       $(this).parent().addClass('invalid');
     }
 });
 
+$('input.phonenumber').blur(function() {
+    if ($(this).val().length <= 1) {
+      $(this).addClass('invalid');
+      $(this).parent().addClass('invalid');
+    }
+});
 
 /* Check for invalid */
 $(function() {
@@ -136,22 +141,22 @@ $(function() {
 
 
 /* ZipCode count */
-$('#zipcode').on("keyup change", function () {
+$('.zipcode').on("keyup change", function () {
 
   const max = 5;
   const len = $(this).val().length;
 
   if (len >= max) {
-    $('#countDown').text("0");
+    $('.countDown').text("0");
   } else {
     const char = max - len;
-    $('#countDown').text(char);
+    $('.countDown').text(char);
   }
 });
 
 /* Phone Number */
 
-$('#phonenumber')
+$('.phonenumber')
 
 	.keydown(function (e) {
 		var key = e.which || e.charCode || e.keyCode || 0;
