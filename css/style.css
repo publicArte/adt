@@ -233,6 +233,11 @@ form input.box{
   border-radius: 4px;
 }
 
+form input[type=text]{
+  font-size: 1em;
+  padding-left: 1vw;
+} 
+
 form input.box.invalid{
   background-image: url(../content/exclamation.png);
   background-repeat: no-repeat;
@@ -246,6 +251,16 @@ form div:nth-child(6) input.box.invalid {
 
 form div {
   align-self: start;
+}
+
+form div:nth-child(5) p {
+  margin: 0;
+  padding: 0.8vh 0 0 0;
+  text-align: left;
+}
+
+form div:nth-child(5) p >  span{
+  color: #012a47;
 }
 
 form > div:nth-child(6) {

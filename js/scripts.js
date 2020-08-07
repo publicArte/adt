@@ -100,14 +100,110 @@ $('input').blur(function() {
 });
 
 
+/* Check for invalid */
+$(function() {
+  (function($) {
+      var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+
+      $.fn.attrchange = function(callback) {
+          if (MutationObserver) {
+              var options = {
+                  subtree: false,
+                  attributes: true
+              };
+
+              var observer = new MutationObserver(function(mutations) {
+                  mutations.forEach(function(e) {
+                      callback.call(e.target, e.attributeName);
+                  });
+              });
+
+              return this.each(function() {
+                  observer.observe(this, options);
+              });
+
+          }
+      }
+  })(jQuery);
+
+  $('#header-form > div').attrchange(function(attrName) {
+
+      if(attrName == 'class'){
+        $('#submit').parent().addClass('invalid');
+      }
+  });
+});
 
 
 /* ZipCode count */
-document.getElementById('zipcode').addEventListener('keyup', () => {
-  var count = 0;
-  if ($(this).val().length > 0) {
-    count = $(this).val().length
-  } 
+$('#zipcode').on("keyup change", function () {
 
-  return count;
+  const max = 5;
+  const len = $(this).val().length;
+
+  if (len >= max) {
+    $('#countDown').text("0");
+  } else {
+    const char = max - len;
+    $('#countDown').text(char);
+  }
 });
+
+/* Phone Number */
+
+$('#phonenumber')
+
+	.keydown(function (e) {
+		var key = e.which || e.charCode || e.keyCode || 0;
+		$phone = $(this);
+
+    // Don't let them remove the starting '('
+    /*if ($phone.val().length === 1 && (key === 8 || key === 46)) {
+			$phone.val('('); 
+      return false;
+		} */
+    // Reset if they highlight and type over first char.
+    if ($phone.val().charAt(0) !== '(') {
+			$phone.val('('+String.fromCharCode(e.keyCode)+''); 
+		}
+
+		// Auto-format- do not expose the mask as the user begins to type
+		if (key !== 8 && key !== 9) {
+			if ($phone.val().length === 4) {
+				$phone.val($phone.val() + ')');
+			}
+			if ($phone.val().length === 5) {
+				$phone.val($phone.val() + ' ');
+			}			
+			if ($phone.val().length === 9) {
+				$phone.val($phone.val() + '-');
+			}
+		}
+
+		// Allow numeric (and tab, backspace, delete) keys only
+		return (key == 8 || 
+				key == 9 ||
+				key == 46 ||
+				(key >= 48 && key <= 57) ||
+				(key >= 96 && key <= 105));	
+	})
+	
+	.bind('focus click', function () {
+		$phone = $(this);
+		
+		if ($phone.val().length === 0) {
+			$phone.val('(');
+		}
+		else {
+			var val = $phone.val();
+			$phone.val('').val(val); // Ensure cursor remains at the end
+		}
+	})
+	
+	.blur(function () {
+		$phone = $(this);
+		
+		if ($phone.val() === '(') {
+			$phone.val('');
+		}
+	});
