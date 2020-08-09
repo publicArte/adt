@@ -1,5 +1,5 @@
 /***********************/
-/* Scroll to top Arrow */
+/* Scroll to Top Arrow */
 /***********************/
 $(document).ready(function() {
 
@@ -30,6 +30,7 @@ $(document).ready(function() {
   });
 
 });
+
 
 /*****************/
 /* Animations    */
@@ -86,26 +87,60 @@ $(document).ready(function() {
     }
   });
 
+/* Parallax */
+// The function
+var background_image_parallax = function($object, multiplier){
+  multiplier = typeof multiplier !== 'undefined' ? multiplier : 0.5;
+	multiplier = 1 - multiplier;
+  var $doc = $(document);
+  $object.css({"background-attatchment" : "fixed"});
+	$(window).scroll(function(){
+	  var from_top = $doc.scrollTop(),
+	      bg_css = '0px ' +(multiplier * from_top) + 'px';
+	  $object.css({"background-position" : bg_css });
+  });
+};
+background_image_parallax($("header"));
+
+
 /*******************/
 /* Form Validation */
 /*******************/
 
-/* Input validate */
+/* Input Validate */
 $('input').blur(function() {
     if (!$(this).val()) {
+      $(this).removeClass('valid');
+      $(this).parent().removeClass('valid');
+      $(this).addClass('invalid');
+      $(this).parent().addClass('invalid');
+    }
+    else if ($(this).val().length >= 2) {
+      $(this).addClass('valid');
+      $(this).parent().addClass('valid');
+    }
+});
+
+$('input.zipcode').blur(function() {
+    if ($(this).val().length < 5){
+      $(this).removeClass('valid');
+      $(this).parent().removeClass('valid');
       $(this).addClass('invalid');
       $(this).parent().addClass('invalid');
     }
 });
 
 $('input.phonenumber').blur(function() {
-    if ($(this).val().length <= 1) {
+    if ($(this).val().length < 14) {
+      $(this).removeClass('valid');
+      $(this).parent().removeClass('valid');
       $(this).addClass('invalid');
       $(this).parent().addClass('invalid');
     }
 });
 
-/* Check for invalid */
+
+/* Check for Invalid */
 $(function() {
   (function($) {
       var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
@@ -131,16 +166,22 @@ $(function() {
       }
   })(jQuery);
 
-  $('#header-form > div').attrchange(function(attrName) {
+  $("form[name='header-form'] > div").attrchange(function(attrName) {
 
       if(attrName == 'class'){
-        $('#submit').parent().addClass('invalid');
+        $("form[name='header-form'] button").parent().addClass('invalid');
+      }
+  });
+  $("form[name='footer-form'] > div").attrchange(function(attrName) {
+
+      if(attrName == 'class'){
+        $("form[name='footer-form'] button").parent().addClass('invalid');
       }
   });
 });
 
 
-/* ZipCode count */
+/* ZipCode Count */
 $('.zipcode').on("keyup change", function () {
 
   const max = 5;
@@ -155,7 +196,6 @@ $('.zipcode').on("keyup change", function () {
 });
 
 /* Phone Number */
-
 $('.phonenumber')
 
 	.keydown(function (e) {

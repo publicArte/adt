@@ -45,7 +45,7 @@
               <h4><strong><span>Plus,</span> call today and get<br>
               a $100 gift card from SafeStreets!</strong></h4>
             </div>
-            <form id="header-form">
+            <form id="header-form" name="header-form">
               <h3>Get Your Free Quote Today</h3>
               <div>
                 <h6>First Name <span>*</span></h6>
@@ -59,12 +59,12 @@
               </div>
               <div>
                 <h6>Phone <span>*</span></h6>
-                <input type="text" class="box phonenumber" placeholder="(555) 555-5555">
+                <input class="box phonenumber" type="text" placeholder="(555) 555-5555" maxlength="14">
                 <ins>This is a required field.</ins>
               </div>
               <div>
                 <h6>Zip Code <span>*</span></h6>
-                <input type="text" id="zipcode" class="box zipcode">
+                <input class="box zipcode" type="text" id="zipcode" maxlength="5">
                 <p><span class="countDown">5</span> of 5 Character(s) left.</p>  
                 <ins>This is a required field.</ins>
               </div>
@@ -103,7 +103,7 @@
                 </p>
               </div>
               <div>
-                <button id="submit" type="button"><b>CONTACT US</b></button>
+                <button type="button"><b>CONTACT US</b></button>
                 <br><br>
                 <ins><b>Please correct errors before submitting this form.</b></ins>
               </div>
@@ -216,12 +216,12 @@
               </div>
               <div>
                 <h6>Phone <span>*</span></h6>
-                <input type="text" class="box phonenumber" placeholder="(555) 555-5555">
+                <input class="box phonenumber" type="text" placeholder="(555) 555-5555" maxlength="14">
                 <ins>This is a required field.</ins>
               </div>
               <div>
                 <h6>Zip Code <span>*</span></h6>
-                <input type="text" id="zipcode" class="box zipcode">
+                <input class="box zipcode" type="text" id="zipcode" maxlength="5">
                 <p><span class="countDown">5</span> of 5 Character(s) left.</p>  
                 <ins>This is a required field.</ins>
               </div>
@@ -260,6 +260,8 @@
               </div>
               <div>
                 <button type="button"><b>CONTACT US</b></button>
+                <br><br>
+                <ins><b>Please correct errors before submitting this form.</b></ins>
               </div>
             </form>
             <div class="text anim-scroll">
