@@ -245,6 +245,11 @@ form input[type=text]{
   padding-left: 1vw;
 } 
 
+form input[type=email]{
+  font-size: 1em;
+  padding-left: 1vw;
+} 
+
 form input.box.invalid{
   background-image: url(../content/exclamation.png);
   background-repeat: no-repeat;

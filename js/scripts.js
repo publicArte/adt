@@ -115,7 +115,7 @@ $('input').blur(function() {
       $(this).addClass('invalid');
       $(this).parent().addClass('invalid');
     }
-    else if ($(this).val().length >= 2) {
+    else if ($(this).val().length >= 2 && $(this).hasClass('invalid')) {
       $(this).addClass('valid');
       $(this).parent().addClass('valid');
     }
@@ -180,6 +180,30 @@ $(function() {
   });
 });
 
+/* Restrict Input */
+(function($) {
+  $.fn.inputFilter = function(inputFilter) {
+    return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  };
+}(jQuery));
+/* Restrict Zipcode */
+$(".zipcode").inputFilter(function(value) {
+  return /^-?\d*$/.test(value); });
+/* Restrict Name */
+$(".name").inputFilter(function(value) {
+  return /^[a-z]*$/i.test(value); });
+
 
 /* ZipCode Count */
 $('.zipcode').on("keyup change", function () {
@@ -198,57 +222,112 @@ $('.zipcode').on("keyup change", function () {
 /* Phone Number */
 $('.phonenumber')
 
-	.keydown(function (e) {
-		var key = e.which || e.charCode || e.keyCode || 0;
-		$phone = $(this);
+.keydown(function (e) {
+	var key = e.which || e.charCode || e.keyCode || 0;
+	$phone = $(this);
 
-    // Don't let them remove the starting '('
-    /*if ($phone.val().length === 1 && (key === 8 || key === 46)) {
-			$phone.val('('); 
-      return false;
-		} */
-    // Reset if they highlight and type over first char.
-    if ($phone.val().charAt(0) !== '(') {
-			$phone.val('('+String.fromCharCode(e.keyCode)+''); 
+  // Don't let them remove the starting '('
+  /*if ($phone.val().length === 1 && (key === 8 || key === 46)) {
+		$phone.val('('); 
+    return false;
+	} */
+  // Reset if they highlight and type over first char.
+  if ($phone.val().charAt(0) !== '(') {
+		$phone.val('('+String.fromCharCode(e.keyCode)+''); 
+	}
+
+	// Auto-format- do not expose the mask as the user begins to type
+	if (key !== 8 && key !== 9) {
+		if ($phone.val().length === 4) {
+			$phone.val($phone.val() + ')');
 		}
-
-		// Auto-format- do not expose the mask as the user begins to type
-		if (key !== 8 && key !== 9) {
-			if ($phone.val().length === 4) {
-				$phone.val($phone.val() + ')');
-			}
-			if ($phone.val().length === 5) {
-				$phone.val($phone.val() + ' ');
-			}			
-			if ($phone.val().length === 9) {
-				$phone.val($phone.val() + '-');
-			}
+		if ($phone.val().length === 5) {
+			$phone.val($phone.val() + ' ');
+		}			
+		if ($phone.val().length === 9) {
+			$phone.val($phone.val() + '-');
 		}
+	}
 
-		// Allow numeric (and tab, backspace, delete) keys only
-		return (key == 8 || 
-				key == 9 ||
-				key == 46 ||
-				(key >= 48 && key <= 57) ||
-				(key >= 96 && key <= 105));	
-	})
+	// Allow numeric (and tab, backspace, delete) keys only
+	return (key == 8 || 
+			key == 9 ||
+			key == 46 ||
+			(key >= 48 && key <= 57) ||
+			(key >= 96 && key <= 105));	
+})
 	
-	.bind('focus click', function () {
-		$phone = $(this);
-		
-		if ($phone.val().length === 0) {
-			$phone.val('(');
-		}
-		else {
-			var val = $phone.val();
-			$phone.val('').val(val); // Ensure cursor remains at the end
-		}
-	})
+.bind('focus click', function () {
+	$phone = $(this);
 	
-	.blur(function () {
-		$phone = $(this);
-		
-		if ($phone.val() === '(') {
-			$phone.val('');
-		}
-	});
+	if ($phone.val().length === 0) {
+		$phone.val('(');
+	}
+	else {
+		var val = $phone.val();
+		$phone.val('').val(val); // Ensure cursor remains at the end
+	}
+})
+	
+.blur(function () {
+	$phone = $(this);
+	
+	if ($phone.val() === '(') {
+		$phone.val('');
+	}
+});
+
+/* Headet Form  Submit Button */
+$('form[name="header-form"] button.submit').on('click', function() {
+  if ($('form[name="header-form"] input[name="first-name"]').val().length <= 2) {
+    $('form[name="header-form"] input[name="first-name"]').addClass('invalid');
+    $('form[name="header-form"] input[name="first-name"]').parent().addClass('invalid');
+  }
+  if ($('form[name="header-form"] input[name="last-name"]').val().length <= 2) {
+    $('form[name="header-form"] input[name="last-name"]').addClass('invalid');
+    $('form[name="header-form"] input[name="last-name"]').parent().addClass('invalid');
+  }
+  if ($('form[name="header-form"] input.zipcode').val().length < 5){
+    $('form[name="header-form"] input.zipcode').addClass('invalid');
+    $('form[name="header-form"] input.zipcode').parent().addClass('invalid');
+  }
+  if ($('form[name="header-form"] input.phonenumber').val().length < 14) {
+    $('form[name="header-form"] input.phonenumber').addClass('invalid');
+    $('form[name="header-form"] input.phonenumber').parent().addClass('invalid');
+  }
+  if ($('form[name="header-form"] input[type="email"]').val().length <= 5) {
+    $('form[name="header-form"] input[type="email"]').addClass('invalid');
+    $('form[name="header-form"] input[type="email"]').parent().addClass('invalid');
+  }
+  if ($('form[name="header-form"] input.radio:checked').length == 0) {
+    $('form[name="header-form"] .radio').closest('div').addClass('invalid');
+  }
+});
+
+/* Footer Form  Submit Button */
+$('form[name="footer-form"] button.submit').on('click', function() {
+  if ($('form[name="footer-form"] input[name="first-name"]').val().length <= 2) {
+    $('form[name="footer-form"] input[name="first-name"]').addClass('invalid');
+    $('form[name="footer-form"] input[name="first-name"]').parent().addClass('invalid');
+  }
+  if ($('form[name="footer-form"] input[name="last-name"]').val().length <= 2) {
+    $('form[name="footer-form"] input[name="last-name"]').addClass('invalid');
+    $('form[name="footer-form"] input[name="last-name"]').parent().addClass('invalid');
+  }
+  if ($('form[name="footer-form"] input.zipcode').val().length < 5){
+    $('form[name="footer-form"] input.zipcode').addClass('invalid');
+    $('form[name="footer-form"] input.zipcode').parent().addClass('invalid');
+  }
+  if ($('form[name="footer-form"] input.phonenumber').val().length < 14) {
+    $('form[name="footer-form"] input.phonenumber').addClass('invalid');
+    $('form[name="footer-form"] input.phonenumber').parent().addClass('invalid');
+  }
+  if ($('form[name="footer-form"] input[type="email"]').val().length <= 5) {
+    $('form[name="footer-form"] input[type="email"]').addClass('invalid');
+    $('form[name="footer-form"] input[type="email"]').parent().addClass('invalid');
+  }
+  if ($('form[name="footer-form"] input.radio:checked').length == 0) {
+    $('form[name="footer-form"] .radio').closest('div').addClass('invalid');
+  }
+});
+
