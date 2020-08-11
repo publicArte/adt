@@ -332,9 +332,18 @@ form div:nth-child(7).invalid {
   background-size: 15%;
   background-position: center right;
 }
+form div:nth-child(7).valid {
+  background-image: url(../content/check.png);
+  background-repeat: no-repeat;
+  background-size: 13%;
+  background-position: center right;
+}
 
 form[name='footer-form'] div:nth-child(7).invalid {
   background-size: 11%;
+}
+form[name='footer-form'] div:nth-child(7).valid {
+  background-size: 10%;
 }
 
 form > div:nth-child(8) {
