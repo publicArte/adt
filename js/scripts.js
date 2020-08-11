@@ -330,4 +330,3 @@ $('form[name="footer-form"] button.submit').on('click', function() {
     $('form[name="footer-form"] .radio').closest('div').addClass('invalid');
   }
 });
-
