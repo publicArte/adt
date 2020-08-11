@@ -904,11 +904,23 @@ footer .bottom .divider {
     grid-auto-flow: column;
     align-items: flex-start;
   }
+  form h3 {
+    margin: 0;
+  }
+  form input.box {
+    width: 100%;
+  }
+  form input[type=text] {
+    padding-left: 3vw;
+  }
   form div {
     grid-column: auto;
     grid-row: auto;
     object-fit: cover;
     padding: 1vh 0;
+  }
+  form div input.box.invalid {
+    background-size: 18%;
   }
   form > div:nth-child(1) {
     grid-row: 2/3;
@@ -925,9 +937,18 @@ footer .bottom .divider {
   form > div:nth-child(5) {
     grid-row: 7/8;
   }
+  form > div:nth-child(5) p {
+    text-align: center;
+  }
   form > div:nth-child(6) {
     grid-row: 9/10;
-    width: 95%;
+    width: 97.5%;
+  }
+  form > div:nth-child(6) input {
+    width: 100%;
+  }
+  form div:nth-child(6) input.box.invalid {
+    background-size: 18%;
   }
   form > div:nth-child(7) {
     grid-row: 10/11;
@@ -938,13 +959,13 @@ footer .bottom .divider {
   form > div:nth-child(9) {
     grid-row: 12/13;
   }
+  form > div:nth-child(9).invalid ins {
+    width: 99%;
+  }
   form > div:nth-child(1), form > div:nth-child(2), form > div:nth-child(3), 
   form > div:nth-child(4), form > div:nth-child(5), form > div:nth-child(6),
   form > div:nth-child(7) h6 {
     text-align: center;
-  } 
-  form > div:nth-child(6) input {
-    margin-left: 1.5vh;
   } 
 
   main .top {
