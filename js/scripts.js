@@ -108,14 +108,19 @@ background_image_parallax($("header"));
 /*******************/
 
 /* Input Validate */
-$('input').blur(function() {
+$('input')
+.on('blur keyup change', function() {
   if (!$(this).val()) {
     $(this).removeClass('valid');
     $(this).parent().removeClass('valid');
     $(this).addClass('invalid');
     $(this).parent().addClass('invalid');
   }
-  else if ($(this).val().length >= 2 && $(this).hasClass('invalid')) {
+});
+
+$('input.name')
+.on('keyup change', function() {
+  if ($(this).val().length >= 2 && $(this).hasClass('invalid')) {
     $(this).removeClass('invalid');
     $(this).parent().removeClass('invalid');
     $(this).addClass('valid');
@@ -123,32 +128,72 @@ $('input').blur(function() {
   }
 });
 
-$('input.zipcode').blur(function() {
+$('input.zipcode')
+.blur(function() {
   if ($(this).val().length < 5){
     $(this).removeClass('valid');
     $(this).parent().removeClass('valid');
     $(this).addClass('invalid');
     $(this).parent().addClass('invalid');
   }
+})
+.on('keyup change', function() {
+  if ($(this).val().length < 5 && $(this).hasClass('valid')) {
+    $(this).removeClass('valid');
+    $(this).parent().removeClass('valid');
+    $(this).addClass('invalid');
+    $(this).parent().addClass('invalid');
+  }
+  if ($(this).val().length == 5 && $(this).hasClass('invalid')) {
+    $(this).removeClass('invalid');
+    $(this).parent().removeClass('invalid');
+    $(this).addClass('valid');
+    $(this).parent().addClass('valid');
+  }
 });
 
-$('input.phonenumber').blur(function() {
+$('input.phonenumber')
+.blur(function() {
   if ($(this).val().length < 14) {
     $(this).removeClass('valid');
     $(this).parent().removeClass('valid');
     $(this).addClass('invalid');
     $(this).parent().addClass('invalid');
   }
+})
+.on('keyup change', function() {
+  if ($(this).val().length < 14 && $(this).hasClass('valid')) {
+    $(this).removeClass('valid');
+    $(this).parent().removeClass('valid');
+    $(this).addClass('invalid');
+    $(this).parent().addClass('invalid');
+  }
+  if ($(this).val().length == 14 && $(this).hasClass('invalid')) {
+    $(this).removeClass('invalid');
+    $(this).parent().removeClass('invalid');
+    $(this).addClass('valid');
+    $(this).parent().addClass('valid');
+  }
 });
 
-$('input.email').blur(function() {
+$('input.email')
+.blur(function() {
   if (!$(this).val().match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
     $(this).removeClass('valid');
     $(this).parent().removeClass('valid');
     $(this).addClass('invalid');
     $(this).parent().addClass('invalid');
   }
-  else if ($(this).val().match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) &&
+})
+.on('keyup change', function() {
+  if (!$(this).val().match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) &&
+  $(this).hasClass('valid')) {
+    $(this).removeClass('valid');
+    $(this).parent().removeClass('valid');
+    $(this).addClass('invalid');
+    $(this).parent().addClass('invalid');
+  }
+  if ($(this).val().match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) &&
   $(this).hasClass('invalid')) {
     $(this).removeClass('invalid');
     $(this).parent().removeClass('invalid');
@@ -191,14 +236,17 @@ $(function() {
   })(jQuery);
 
   $("form[name='header-form'] > div").attrchange(function(attrName) {
-
-      if(attrName == 'class'){
+      if (attrName == 'class') {
         $("form[name='header-form'] button").parent().addClass('invalid');
       }
   });
+  /*$("form[name='header-form'] > div").attrchange(function(className) {
+      if (className == 'valid') {
+        $("form[name='header-form'] button").parent().removeClass('invalid');
+      }
+  });*/
   $("form[name='footer-form'] > div").attrchange(function(attrName) {
-
-      if(attrName == 'class'){
+      if (attrName == 'class') {
         $("form[name='footer-form'] button").parent().addClass('invalid');
       }
   });
@@ -230,7 +278,7 @@ $(".name").inputFilter(function(value) {
 
 
 /* ZipCode Count */
-$('.zipcode').on("keyup change", function () {
+$('.zipcode').on("keyup change", function() {
 
   const max = 5;
   const len = $(this).val().length;
